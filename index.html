@@ -1,187 +1,315 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Nlan UI Neon</title>
+  <title>AimLock lan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Space+Grotesk:wght@500&display=swap');
-    body {
-      margin: 0;
-      background: radial-gradient(circle at center, #2a003f, #0a001f);
-      font-family: 'Space Grotesk', 'Orbitron', sans-serif;
-      color: white;
-      overflow: hidden;
-      position: relative;
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%; background: #000;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden; color: #fff;
     }
-    h1 {
-      text-align: center;
-      font-size: 40px;
-      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-      background-size: 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbow 8s linear infinite;
-      margin: 10px 0;
+
+    #particles-js {
+      position: fixed;
+      width: 100%; height: 100%;
+      z-index: 0;
     }
-    @keyframes rainbow {
-      0% {background-position: 0%}
-      100% {background-position: 400%}
-    }
-    .section {
-      margin: 15px 25px;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      box-shadow: 0 0 15px #ff0066;
-    }
-    .section h2 {
-      font-size: 30px;
-      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-      background-size: 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbow 5s linear infinite;
-      margin: 0 0 20px;
-      text-align: left;
-    }
-    .slider-container {
-      display: flex;
-      align-items: center;
-      margin: 15px 0;
-      gap: 12px;
-    }
-    .slider-container span {
-      flex: 1;
-      font-size: 28px;
-    }
-    .slider-wrapper {
-      flex: 3;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 20px;
-      border-radius: 5px;
-      background: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff);
-      background-size: 300%;
-      box-shadow: 0 0 10px #ff0055;
-      animation: rainbow 5s linear infinite;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      height: 30px;
-      width: 30px;
-      background: white;
-      border-radius: 50%;
-      border: 3px solid #ff0055;
-      box-shadow: 0 0 10px white;
-    }
-    .percent {
-      width: 60px;
-      text-align: right;
-      font-size: 28px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 20px;
-      color: #aaa;
-    }
-    .contact {
-      display: flex;
-      flex-direction: column;
-      font-size: 25px;
-      gap: 10px;
-      margin-left: 10px;
-    }
-    .contact span {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .contact img {
-      width: 30px;
-      height: 30px;
-    }
-    .avatar-container {
+
+    .menu-toggle {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      padding: 5px;
-      background: linear-gradient(90deg, red, orange, yellow, green, cyan, blue, violet);
-      animation: rainbow 5s linear infinite;
+      top: 15px;
+      right: 15px;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      color: white;
+      z-index: 1001;
+      cursor: pointer;
     }
-    .avatar-container img {
-      width: 100%;
+
+    .sidebar {
       height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
+      width: 0;
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      right: 0;
+      background-color: rgba(50, 50, 50, 0.95);
+      overflow-x: hidden;
+      transition: 0.4s;
+      padding-top: 60px;
+      border-radius: 10px 0 0 10px;
     }
-    .floating-text {
-      position: absolute;
-      bottom: 10px;
-      left: 20px;
-      font-size: 18px;
+
+    .sidebar a {
+      padding: 12px 20px;
+      text-decoration: none;
+      font-size: 20px;
       color: white;
-      white-space: nowrap;
-      animation: scrollText 6s linear infinite;
+      display: block;
+      transition: 0.2s;
     }
-    @keyframes scrollText {
-      0% {transform: translateX(0%); opacity: 1;}
-      90% {transform: translateX(100%); opacity: 0;}
-      100% {transform: translateX(0%); opacity: 0;}
+
+    .sidebar a:hover {
+      background-color: #8d24f0;
+    }
+
+    .section {
+      display: none;
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(20, 0, 0, 0.85);
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #8d24f0;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1;
+      width: 90%;
+      max-width: 320px;
+      gap: 15px;
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      align-items: center;
+    }
+
+    label.switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 28px;
+      animation: pop 0.3s ease;
+    }
+
+    label.switch input { display: none; }
+
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #444;
+      transition: .4s;
+      border-radius: 28px;
+    }
+
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 22px; width: 22px;
+      left: 3px; bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider-toggle {
+      background: linear-gradient(45deg, #ca2cf1, #8d24f0);
+      box-shadow: 0 0 10px #54027a;
+    }
+
+    input:checked + .slider-toggle:before {
+      transform: translateX(32px);
+    }
+
+    .slider-container input[type=range] {
+      width: 120%;
+      accent-color: rgb(139, 14, 241);
+    }
+
+    .slider-container div {
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    #notification {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: none;
+      z-index: 999;
+      font-weight: bold;
+      color: #0f0;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
 <body>
-  <h1>#MENU-NguyenHoangLan</h1>
 
-  <div class="section"><h2>Function </h2>
-    <div class="slider-container"><span>AIMBOT</span>
-      <div class="slider-wrapper">
-        <input type="range" min="0" max="100" value="50" oninput="this.nextElementSibling.innerText=this.value+'%'">
-        <div class="percent">50%</div>
-      </div>
-    </div>
-    <div class="slider-container"><span>AIMLOCK</span>
-      <div class="slider-wrapper">
-        <input type="range" min="0" max="100" value="70" oninput="this.nextElementSibling.innerText=this.value+'%'">
-        <div class="percent">70%</div>
-      </div>
-    </div>
-    <div class="slider-container"><span>SENSITIVY</span>
-      <div class="slider-wrapper">
-        <input type="range" min="0" max="100" value="30" oninput="this.nextElementSibling.innerText=this.value+'%'">
-        <div class="percent">30%</div>
-      </div>
-    </div>
-    <div class="slider-container"><span>ĐẠN THẲNG</span>
-      <div class="slider-wrapper">
-        <input type="range" min="0" max="100" value="90" oninput="this.nextElementSibling.innerText=this.value+'%'">
-        <div class="percent">90%</div>
-      </div>
-    </div>
+<div id="particles-js"></div>
+<div id="notification"></div>
+
+<audio id="soundOn" src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3"></audio>
+<audio id="soundOff" src="https://assets.mixkit.co/sfx/preview/mixkit-click-error-1110.mp3"></audio>
+
+<button class="menu-toggle" onclick="openMenu()">☰</button>
+
+<div id="sideMenu" class="sidebar">
+  <a href="#" onclick="switchSection('main')">Main</a>
+  <a href="#" onclick="switchSection('setting')">Setting</a>
+  <a href="#" onclick="switchSection('nlan')">Nlan</a>
+</div>
+
+<div id="loginSection" class="section" style="display:flex;">
+  <h2>Login</h2>
+  <input type="text" id="keyInput" placeholder="nlan">
+  <button onclick="validateKey()">Inject</button>
+</div>
+
+<div id="loadingSection" class="section">
+  <h2 id="loadingText">Loading... 0%</h2>
+  <div style="width: 100%; height: 10px; background: #330; border-radius: 8px;">
+    <div id="progressFill" style="height: 100%; width: 0%; background: #7e14e0;"></div>
   </div>
+</div>
 
-  <div class="section"><h2>AIMLOCK FULL ĐỎ HỖ TRỢ KÉO TÂM VÀ CÁC DẠNG FILE & ACC GAME UY TÍN LIÊN HỆ @Nlan NHÉ ..! ❤️‍🔥</h2></div>
+<div id="mainSection" class="section">
+  <h2>🎮 Panel Aimlock || Nlan </h2>
+  <div class="toggle-row"><span>AIMBOT</span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'AIMBOT')"><span class="slider-toggle"></span></label></div>
+  <div class="toggle-row"><span>AIMLOCK</span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'AIMLOCK')"><span class="slider-toggle"></span></label></div>
+  <div class="slider-container"><div>Aim FOV</div><input type="range" min="1" max="200" value="200" oninput="updateSlider(this, 'fovVal')"><div id="fovVal">200</div></div>
+  <div class="toggle-row"><span>NO RECOIL </span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'NORECOIL')"><span class="slider-toggle"></span></label></div>
+  <div class="toggle-row"><span>NO RELOAD </span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'NO RELOAD')"><span class="slider-toggle"></span></label></div>
+  <div class="slider-container"><div>SENSI</div><input type="range" min="1" max="100" value="100" oninput="updateSlider(this, 'sensiVal')"><div id="sensiVal">100</div></div>
+  <div class="toggle-row"><span>Pull Player</span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'PULL PLAYER')"><span class="slider-toggle"></span></label></div>
+  <div class="toggle-row"><span>Teleport</span><label class="switch"><input type="checkbox" onchange="notifyToggle(this, 'TELEPORT')"><span class="slider-toggle"></span></label></div>
+</div>
+<div id="settingSection" class="section">
+  <h2>SETTINGS</h2>
+  <button onclick="checkDPS()">Zalo : 0971553617</button>
+  <div id="dpsResult"></div>
+  <button onclick="checkDevice()">📱 Thiết Bị Hiện Tại </button>
+  <div id="deviceInfo" style="margin-top: 20px; white-space: pre-wrap;"></div>
+</div>
 
-  <div class="section"><h2>Contact info👇🏻</h2>
-    <div class="contact">
-      <span><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Icon_of_Zalo.svg/2048px-Icon_of_Zalo.svg.png"> Zalo Me: 0971553617</span>
-      <span><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"> Facebook: Ng Lann</span>
-      <span><img src="https://store-images.s-microsoft.com/image/apps.4784.13634052595610511.c45457c9-b4af-46b0-8e61-8d7c0aec3f56.3d483847-81a6-4078-8f83-a35c5c38ee92?h=210"> TikTok: @nlan.trumfile</span>
-    </div>
-  </div>
+<script>
+  function openMenu() {
+    document.getElementById("sideMenu").style.width = "200px";
+  }
 
-  <div class="avatar-container"><img src="https://i.imgur.com/PF7yQ9M.jpeg" alt="avatar"></div>
-  <div class="floating-text">#NguyenHoangLan</div>
+  function closeMenu() {
+    document.getElementById("sideMenu").style.width = "0";
+  }
 
-  <footer>Copyright © 2025 NlaniOS</footer>
+  function switchSection(section) {
+    document.getElementById("mainSection").style.display = "none";
+    document.getElementById("settingSection").style.display = "none";
+    if (section === "main") document.getElementById("mainSection").style.display = "flex";
+    else if (section === "setting") document.getElementById("settingSection").style.display = "flex";
+    closeMenu();
+  }
+
+  function validateKey() {
+    const key = document.getElementById("keyInput").value;
+    if (key === "nlan") {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("loadingSection").style.display = "flex";
+      let p = 0;
+      const fill = document.getElementById("progressFill");
+      const txt = document.getElementById("loadingText");
+      const timer = setInterval(() => {
+        p++;
+        fill.style.width = p + "%";
+        txt.innerText = "Loading... " + p + "%";
+        if (p >= 100) {
+          clearInterval(timer);
+          document.getElementById("loadingSection").style.display = "none";
+          document.getElementById("mainSection").style.display = "flex";
+        }
+      }, 20);
+    } else {
+      alert("Sai key!");
+    }
+  }
+
+  function notifyToggle(el, name) {
+    const msg = el.checked ? `${name} ✅ đã bật` : `${name} ❌ đã tắt`;
+    const box = document.getElementById("notification");
+    box.innerText = msg;
+    box.style.display = "block";
+    setTimeout(() => box.style.display = "none", 2000);
+
+    // Âm thanh
+    const sound = el.checked ? document.getElementById("soundOn") : document.getElementById("soundOff");
+    sound.currentTime = 0;
+    sound.play();
+  }
+
+  function updateSlider(el, id) {
+    document.getElementById(id).innerText = el.value;
+  }
+
+  function checkDPS() {
+    const dps = Math.floor(Math.random() * (220 - 70 + 1)) + 70;
+    document.getElementById("dpsResult").innerText = `Zalo : 09715536 ${d}` ;
+  }
+
+  function checkDevice() {
+    const ua = navigator.userAgent;
+    let device = "Không xác định";
+
+    if (/android/i.test(ua)) device = "Android";
+    else if (/iPad|iPhone|iPod/.test(ua)) device = "iOS";
+    else if (/Windows NT/.test(ua)) device = "Windows PC";
+    else if (/Macintosh/.test(ua)) device = "macOS";
+    else if (/Linux/.test(ua)) device = "Linux";
+
+    const browser = (() => {
+      if (ua.includes("Chrome")) return "Chrome";
+      if (ua.includes("Safari") && !ua.includes("Chrome")) return "Safari";
+      if (ua.includes("Firefox")) return "Firefox";
+      return "Trình duyệt khác";
+    })();
+
+    const resolution = `${screen.width}x${screen.height}`;
+
+    document.getElementById("deviceInfo").innerText = 
+      `🎮 Device : ${device}\n🌐 Trình duyệt: ${browser}\n💻 Độ phân giải: ${resolution}`;
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": { "value": 70 },
+      "color": { "value": "#ff2a2a" },
+      "shape": { "type": "circle" },
+      "opacity": { "value": 0.5 },
+      "size": { "value": 3, "random": true },
+      "line_linked": {
+        "enable": true,
+        "distance": 130,
+        "color": "#ff2a2a",
+        "opacity": 0.4,
+        "width": 1
+      },
+      "move": { "enable": true, "speed": 2 }
+    },
+    "interactivity": {
+      "events": {
+        "onhover": { "enable": true, "mode": "repulse" }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
+
 </body>
 </html>
+
